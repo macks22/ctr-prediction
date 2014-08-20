@@ -41,6 +41,9 @@ if __name__ == "__main__":
         print usage
         sys.exit(1)
 
+    # set up logging
+    logging.basicConfig(level=logging.INFO)
+
     # parse CL args
     csvfile = sys.argv[1]
     dirname = os.path.dirname(__file__) if len(sys.argv) < 3 else sys.argv[2]
@@ -53,12 +56,12 @@ if __name__ == "__main__":
 
     with open(csvfile, 'r') as source:
         headers = source.readline()
-        print 'output directory: {}'.format(outdir)
+        logging.info('output directory: {}'.format(outdir))
         for chunk in iterchunk(source, block_size):
             prefix = prefixgen.next()
             fname = '{}-split.csv'.format(prefix)
             path = os.path.join(outdir, fname)
-            print 'writing {} bytes to: {}'.format(block_size, fname)
+            logging.info('writing ~{} bytes to: {}'.format(block_size, fname))
             with open(path, 'w') as dest:
                 dest.write(headers)
                 dest.writelines(chunk)
