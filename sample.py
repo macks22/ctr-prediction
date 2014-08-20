@@ -2,7 +2,6 @@ import os
 import sys
 import csv
 import time
-from multiprocessing import Pool
 
 import numpy as np
 import pandas as pd
@@ -14,17 +13,6 @@ def iterfile(filepath):
     with open(filepath, 'r') as f:
         for num, line in enumerate(f):
             yield (num, line)
-
-
-def iter_csv_slow(csvfile, step=1):
-    with open(csvfile, 'r') as f:
-        reader = csv.reader(f)
-        yield reader.next()  # first return headers
-        for row in reader:
-            if reader.line_num % step == 0:
-                yield reader.next()
-            else:
-                reader.next()
 
 
 def iter_csv(csvfile, step=1):
@@ -40,12 +28,6 @@ def write_sample(infile, outfile, sample_rate):
     with open(outfile, 'w') as f:
         writer = csv.writer(f)
         writer.writerow(headers)
-
-        # pool = Pool()
-        # pool.map(writer.writerow, csviter)
-        # pool.close()
-        # pool.join()
-
         for line in csviter:
             writer.writerow(line)
 

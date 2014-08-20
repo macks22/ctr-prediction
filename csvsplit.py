@@ -50,10 +50,12 @@ if __name__ == "__main__":
     outdir = os.path.abspath(dirname)
     block_size = MB100 if len(sys.argv) < 4 else sys.argv[3]
 
+    # set up file prefix calculation
     fsize = os.path.getsize(csvfile)
     num_files = int(round(fsize / float(block_size)))
     prefixgen = iterprefix(num_files)
 
+    # write the csv file splits
     with open(csvfile, 'r') as source:
         headers = source.readline()
         logging.info('output directory: {}'.format(outdir))
