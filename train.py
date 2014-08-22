@@ -54,7 +54,8 @@ if __name__ == "__main__":
 
     # combine all test data
     testdf = datagen.next()
-    for _ in range(num_test-1):
+    for num in range(num_test-1):
+        print 'reading in test data file: {}'.format(num)
         testdf.append(datagen.next())
 
     testlabels, testdata = clean.labels_data(testdf)
